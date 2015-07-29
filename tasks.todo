@@ -1,0 +1,19 @@
+Read:
+  ☐ ! http://facebook.github.io/react/docs/thinking-in-react.html
+  ☐ data flow - http://facebook.github.io/react/docs/multiple-components.html
+  ☐ https://www.firebase.com/docs/web/libraries/react/guide.html
+  ☐ http://ricostacruz.com/cheatsheets/react.html
+
+Modules:
+  ☐ CRUD counters [type, £value, icon]
+  ☐ Login (email/password w/Firebase Auth)
+  ☐ Profile (stats)
+  ☐ actual counts -> DB
+
+Scaffolding:
+  ☐ tidy Gulp tasks/docs
+
+＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
+Archive:
+  ✔ ReactFire @done(2015-07-29 17:32) @project(Tooling)
+  ✔ Router @done(2015-07-29 17:05) @project(Tooling)
