@@ -5,9 +5,8 @@ Read:
   ☐ http://ricostacruz.com/cheatsheets/react.html
 
 Modules:
-  ☐ CRUD counters [type, £value, icon]
   ☐ Login (email/password w/Firebase Auth)
-  ☐ Profile (stats)
+  ☐ CRUD counters [type, £value, icon]
   ☐ actual counts -> DB
 
 Scaffolding:

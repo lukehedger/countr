@@ -7,7 +7,6 @@ var Route = Router.Route;
 var Main = require('./view/main');
 var Home = require('./view/home');
 var Login = require('./view/login');
-var Profile = require('./view/profile');
 
 var app = {
 
@@ -31,7 +30,6 @@ var app = {
       <Route handler={Main}>
         <Route path="/" handler={Home}/>
         <Route path="login" handler={Login}/>
-        <Route path="profile" handler={Profile}/>
       </Route>
     );
 
