@@ -1,18 +1,15 @@
-Read:
-  ☐ ! http://facebook.github.io/react/docs/thinking-in-react.html
-  ☐ data flow - http://facebook.github.io/react/docs/multiple-components.html
-  ☐ https://www.firebase.com/docs/web/libraries/react/guide.html
-  ☐ http://ricostacruz.com/cheatsheets/react.html
-
 Modules:
-  ☐ Login (email/password w/Firebase Auth)
+  ☐ CRUD Login (email/password w/Firebase Auth) -> https://www.firebase.com/docs/web/guide/login/password.html
   ☐ CRUD counters [type, £value, icon]
-  ☐ actual counts -> DB
+  ☐ actual counts -> DB (w/timestamp)
+  ☐ period selector
 
 Scaffolding:
   ☐ tidy Gulp tasks/docs
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+  ✔ data flow - http://facebook.github.io/react/docs/multiple-components.html @done(2015-08-17 17:50) @project(Read)
+  ✔ http://facebook.github.io/react/docs/thinking-in-react.html @done(2015-08-17 17:48) @project(Read)
   ✔ ReactFire @done(2015-07-29 17:32) @project(Tooling)
   ✔ Router @done(2015-07-29 17:05) @project(Tooling)

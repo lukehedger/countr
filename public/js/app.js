@@ -23575,7 +23575,14 @@ module.exports = React.createClass({
 
     // connect to firebase
     var db = new Firebase('https://countrapp.firebaseio.com/users');
-    this.bindAsObject(db, "users");
+
+    // bind firebase ref to component state
+    this.bindAsObject(db, 'users');
+
+    // add user -> always make changes direct to DB and not to state as state will be reatively refreshed by DB one-way binding
+    // this.firebaseRefs.users.push({
+    //   username: "hello"
+    // });
 
     // db.once('value', function(snapshot) {
     //   var data = snapshot.val();
