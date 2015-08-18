@@ -1,3 +1,9 @@
+Stack:
+  ☐ flip over to ES6 -> test out whether current babelify task can handle? Then re-write React Components as ES6 classes
+  ☐ install redux (npm install --save redux react-redux --save-dev redux-devtools)
+  ☐ setup simple redux eg. -> app structure: https://github.com/rackt/redux/tree/master/examples/counter
+  ☐ install re-base -> https://github.com/tylermcginnis/re-base
+
 Modules:
   ☐ CRUD Login (email/password w/Firebase Auth) -> https://www.firebase.com/docs/web/guide/login/password.html
   ☐ CRUD counters [type, £value, icon]

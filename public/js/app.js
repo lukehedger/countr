@@ -10,6 +10,7 @@ var Route = Router.Route;
 var Main = require('./view/main');
 var Home = require('./view/home');
 var Login = require('./view/login');
+var Signup = require('./view/signup');
 
 var app = {
 
@@ -31,7 +32,8 @@ var app = {
       Route,
       { handler: Main },
       React.createElement(Route, { path: "/", handler: Home }),
-      React.createElement(Route, { path: "login", handler: Login })
+      React.createElement(Route, { path: "login", handler: Login }),
+      React.createElement(Route, { path: "signup", handler: Signup })
     );
 
     // render view componenets dynamically thru Router
@@ -48,7 +50,7 @@ domready(function () {
   app.render();
 });
 
-},{"./view/home":201,"./view/login":202,"./view/main":203,"domready":3,"react":198,"react-router":29}],2:[function(require,module,exports){
+},{"./view/home":201,"./view/login":202,"./view/main":203,"./view/signup":204,"domready":3,"react":198,"react-router":29}],2:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -23654,7 +23656,51 @@ module.exports = React.createClass({
 
 });
 
-},{"react":198,"react-router":29}]},{},[1])
+},{"react":198,"react-router":29}],204:[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+
+module.exports = React.createClass({
+  displayName: 'exports',
+
+  getInitialState: function getInitialState() {
+
+    return {};
+  },
+
+  onSignupSubmit: function onSignupSubmit(e) {
+
+    e.preventDefault();
+
+    console.log('signup');
+
+    // TODO - fire controllers/userCreate -> how?
+  },
+
+  render: function render() {
+
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'h1',
+        null,
+        'Signup'
+      ),
+      React.createElement(
+        'form',
+        { action: "" },
+        React.createElement('input', { type: "text", value: "", placeholder: "username" }),
+        React.createElement('input', { type: "password", value: "", placeholder: "password" }),
+        React.createElement('input', { type: "submit", value: "Signup", onClick: this.onSignupSubmit })
+      )
+    );
+  }
+
+});
+
+},{"react":198}]},{},[1])
 
 
 //# sourceMappingURL=app.js.map
