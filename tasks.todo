@@ -1,7 +1,6 @@
 Stack:
-  ☐ tidy Gulp tasks/docs/packages -> stop creating module/index.js
-  ☐ setup re-base -> https://github.com/tylermcginnis/re-base
   ☐ read some more about redux and write some notes about app structure
+  ☐ setup re-base -> https://github.com/tylermcginnis/re-base | https://github.com/phaistonian/ReactChat | https://gist.github.com/phaistonian/2542563e6e5d7e5a2f97
 
 Modules:
   ☐ CRUD User (email/password w/Firebase Auth) -> https://www.firebase.com/docs/web/guide/login/password.html
@@ -9,6 +8,7 @@ Modules:
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+  ✔ tidy Gulp tasks/docs/packages @done(2015-08-19 16:56) @project(Stack)
   ✔ add react-router @done(2015-08-19 16:27) @project(Stack)
   ✔ setup redux app structure @done(2015-08-19 12:04) @project(Stack)
   ✔ flip over to ES6 -> re-write React Components as ES6 classes @done(2015-08-18 16:39) @project(Stack)

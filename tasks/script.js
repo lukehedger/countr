@@ -1,7 +1,6 @@
 var watchify = require('watchify');
 var browserify = require('browserify');
 var babelify = require('babelify');
-var ractivate = require('ractivate');
 var gulp = require('gulp');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
@@ -71,7 +70,6 @@ function bundle() {
 
     b = opts.debug ? watchify(browserify(opts)) : browserify(opts);
     b.transform(babelify);
-    b.transform(ractivate);
     b.on('update', bundle);
     b.on('log', gutil.log);
 
