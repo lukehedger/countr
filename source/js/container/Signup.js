@@ -1,26 +1,15 @@
-var React = require('react');
+import React, { Component } from 'react';
 
-module.exports = React.createClass({
+export default class Signup extends Component {
 
-  getInitialState: function() {
+  constructor(props) {
 
-    return {
+    super(props);
+    this.onSignupSubmit = this.onSignupSubmit.bind(this);
 
-    };
+  }
 
-  },
-
-  onSignupSubmit: function(e) {
-
-    e.preventDefault();
-
-    console.log('signup');
-
-    // TODO - fire controllers/userCreate -> how?
-
-  },
-
-  render: function() {
+  render() {
 
     return (
       <div>
@@ -35,4 +24,12 @@ module.exports = React.createClass({
 
   }
 
-});
+  onSignupSubmit(e) {
+
+    e.preventDefault();
+
+    console.log('signup');
+
+  }
+
+}

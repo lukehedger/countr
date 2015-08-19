@@ -1,20 +1,17 @@
 Stack:
-  ☐ flip over to ES6 -> test out whether current babelify task can handle? Then re-write React Components as ES6 classes
-  ☐ install redux (npm install --save redux react-redux --save-dev redux-devtools)
-  ☐ setup simple redux eg. -> app structure: https://github.com/rackt/redux/tree/master/examples/counter
-  ☐ install re-base -> https://github.com/tylermcginnis/re-base
+  ☐ tidy Gulp tasks/docs/packages -> stop creating module/index.js
+  ☐ setup re-base -> https://github.com/tylermcginnis/re-base
+  ☐ read some more about redux and write some notes about app structure
 
 Modules:
-  ☐ CRUD Login (email/password w/Firebase Auth) -> https://www.firebase.com/docs/web/guide/login/password.html
-  ☐ CRUD counters [type, £value, icon]
-  ☐ actual counts -> DB (w/timestamp)
-  ☐ period selector
-
-Scaffolding:
-  ☐ tidy Gulp tasks/docs
+  ☐ CRUD User (email/password w/Firebase Auth) -> https://www.firebase.com/docs/web/guide/login/password.html
+  ☐ CRUD Counter [type, timestamp, £value, icon]
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+  ✔ add react-router @done(2015-08-19 16:27) @project(Stack)
+  ✔ setup redux app structure @done(2015-08-19 12:04) @project(Stack)
+  ✔ flip over to ES6 -> re-write React Components as ES6 classes @done(2015-08-18 16:39) @project(Stack)
   ✔ data flow - http://facebook.github.io/react/docs/multiple-components.html @done(2015-08-17 17:50) @project(Read)
   ✔ http://facebook.github.io/react/docs/thinking-in-react.html @done(2015-08-17 17:48) @project(Read)
   ✔ ReactFire @done(2015-07-29 17:32) @project(Tooling)
