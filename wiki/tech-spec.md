@@ -28,6 +28,8 @@
 #### [Redux](http://rackt.github.io/redux/)
 > A predictable state container for JavaScript apps
 
+#### [Re-base](https://github.com/tylermcginnis/re-base)
+> A Relay inspired library for building React + Firebase applications
 
 ## Database
 

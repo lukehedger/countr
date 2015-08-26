@@ -10,6 +10,10 @@ export default class Counter extends Component {
 
   render() {
 
+    // TODO - this is where we'd render ALL the counters by iterating over this.props.counters (which would be fetched from the DB in container/Counters and assigned to state.counters = [])
+    // {this.props.counters.map(renderCounter)} -> where renderCounter() is a function returning some JSX markup
+    // see for example: https://gist.github.com/chantastic/fc9e3853464dffdb1e3c
+
     const { increment, decrement, counter } = this.props;
 
     return (
