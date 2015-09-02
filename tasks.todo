@@ -1,6 +1,12 @@
-Stack:
+Redux:
+  ☐ refine data flow
+    - add increment/decrement functions back in
+    - need a selectUser action/reducer/container/component etc etc etc
+    - document async data flow -> http://rackt.github.io/redux/docs/advanced/AsyncActions.html
+
   ☐ setup re-base
-    - use syncState with Redux state reducers to update state and sync with DB -> try this with simple counter
+    - replace local database call with Firebase call -> add mock data to FB with associations
+    - use syncState with Redux state reducers to update state and sync with DB
 
 Modules:
   ☐ CRUD User (email/password w/Firebase Auth) -> https://www.firebase.com/docs/web/guide/login/password.html
@@ -10,9 +16,16 @@ Server/Database alternative:
   - Relay/GraphQL ->  https://facebook.github.io/relay/
   - or Falcor -> http://netflix.github.io/falcor/
   - Mongo/Mongoose DB?
+  - Universal/Isomporphic app w/server-side rendering
+
+Resources:
+  - react-router https://github.com/rackt/react-router/tree/master
+  - reselect https://github.com/faassen/reselect
+  - react cheatsheet http://ricostacruz.com/cheatsheets/react.html
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+  ✔ flesh out data flow @done(2015-09-02 17:30) @project(Stack)
   ✔ tidy Gulp tasks/docs/packages @done(2015-08-19 16:56) @project(Stack)
   ✔ add react-router @done(2015-08-19 16:27) @project(Stack)
   ✔ setup redux app structure @done(2015-08-19 12:04) @project(Stack)
@@ -21,3 +34,39 @@ Archive:
   ✔ http://facebook.github.io/react/docs/thinking-in-react.html @done(2015-08-17 17:48) @project(Read)
   ✔ ReactFire @done(2015-07-29 17:32) @project(Tooling)
   ✔ Router @done(2015-07-29 17:05) @project(Tooling)
+
+
+state: {
+  currentUser: '',
+  entities: {
+    <full database>
+  },
+  countersByUser: {
+    // where key is user.id
+    0: {
+      isFetching: false,
+      didInvalidate: false,
+      lastUpdated: 1439478405547,
+      // where items is array of counter.ids
+      items: [0, 1]
+    }
+  }
+}
+
+database: {
+  counters: {
+    0: {
+      id: 0,
+      title: '',
+      value: 0,
+      owner: 0
+    },
+    ...
+  },
+  users: {
+    0: {
+      id: 0,
+      name: ''
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "users": {
+    "0": {
+      "id": 0,
+      "name": "luke"
+    }
+  },
+  "counters": [
+    {
+      "id": 0,
+      "title": "beer",
+      "value": 0,
+      "owner": 0
+    },
+    {
+      "id": 1,
+      "title": "cookie",
+      "value": 0,
+      "owner": 0
+    },
+    {
+      "id": 2,
+      "title": "burger",
+      "value": 0,
+      "owner": 0
+    }
+  ]
+}

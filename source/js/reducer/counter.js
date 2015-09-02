@@ -1,14 +1,33 @@
-import { INCREMENT_COUNTER, DECREMENT_COUNTER } from '../action/counter';
+// import { INCREMENT_COUNTER, DECREMENT_COUNTER } from '../action/counter';
+import { RECEIVE_COUNTERS } from '../action/counter';
 
-const initialState = 0;
+const initialState = {
+  isFetching: false,
+  didInvalidate: false,
+  items: []
+};
 
-export default function counter(state = initialState, action) {
+export default function countersByUser(state = initialState, action) {
 
   switch (action.type) {
-  case 'INCREMENT_COUNTER':
-    return state + 1;
-  case 'DECREMENT_COUNTER':
-    return state - 1;
+
+  // TODO - this reducer needs more work to look like the reddit eg. -> REQUEST, INVALIDATE, SUCCESS, FAILURE
+  // - An action informing the reducers that the request began.
+  // - An action informing the reducers that the request finished successfully.
+  // - An action informing the reducers that the request failed.
+
+  // case 'INCREMENT_COUNTER':
+  //   return state + 1;
+  // case 'DECREMENT_COUNTER':
+  //   return state - 1;
+
+  case 'RECEIVE_COUNTERS':
+    return Object.assign({}, state, {
+      isFetching: false,
+      didInvalidate: false,
+      items: action.counters,
+      lastUpdated: action.receivedAt
+    });
   default:
     return state;
   }

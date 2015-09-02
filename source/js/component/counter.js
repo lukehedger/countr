@@ -2,26 +2,36 @@ import React, { Component, PropTypes } from 'react';
 
 export default class Counter extends Component {
 
-  constructor(props, ctx) {
+  constructor(props) {
 
-    super(props, ctx);
+    super(props);
 
   }
 
   render() {
 
-    // TODO - this is where we'd render ALL the counters by iterating over this.props.counters (which would be fetched from the DB in container/Counters and assigned to state.counters = [])
-    // {this.props.counters.map(renderCounter)} -> where renderCounter() is a function returning some JSX markup
-    // see for example: https://gist.github.com/chantastic/fc9e3853464dffdb1e3c
-
-    const { increment, decrement, counter } = this.props;
+    // const { onIncrement, onDecrement } = this.props;
+    const { counters } = this.props;
+    const renderCounter = this.renderCounter;
 
     return (
       <div>
-        <h1>Counter</h1>
-        <h2>{counter}</h2>
-        <button onClick={increment}>+</button>
-        <button onClick={decrement}>-</button>
+        <h1>Counters</h1>
+        {counters.map(renderCounter)}
+        {/*
+          <button onClick={onIncrement}>+</button>
+          <button onClick={onDecrement}>-</button>
+        */}
+      </div>
+    );
+
+  }
+
+  renderCounter(counter, i) {
+
+    return (
+      <div key={counter.id}>
+        <h2>{counter.title} - {counter.value}</h2>
       </div>
     );
 
@@ -30,7 +40,7 @@ export default class Counter extends Component {
 }
 
 Counter.propTypes = {
-  increment: PropTypes.func.isRequired,
-  decrement: PropTypes.func.isRequired,
-  counter: PropTypes.number.isRequired
+  // onIncrement: PropTypes.func.isRequired,
+  // onDecrement: PropTypes.func.isRequired,
+  counters: PropTypes.array.isRequired
 };

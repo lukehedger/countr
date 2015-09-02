@@ -34,7 +34,7 @@ The files in `action/*.js` are actually Action Creators (a function that creates
 
 Actions can pass data to Reducers for use in altering the state - see [Flux Standard Action](https://github.com/acdlite/flux-standard-action) for info on constructing actions.
 
-Actions can be dispatched from anywhere in your app: components and XHR callbacks or even at scheduled intervals.
+Not all actions must go through a Reducer - actions can be dispatched from anywhere in your app: components and XHR callbacks or even at scheduled intervals. These Actions can return functions (thunks) or Promises - through the use of Middleware - and can dispatch other actions. See more on [async data flow](http://rackt.github.io/redux/docs/advanced/AsyncFlow.html).
 
 *TODO -> how can dynamic data be passed to an Action from a Component event?*
 

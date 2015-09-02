@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import counter from './counter';
+import countersByUser from './counter';
 import user from './user';
 
 const rootReducer = combineReducers({
-  counter,
+  countersByUser,
   user
 });
 
