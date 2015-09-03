@@ -1,11 +1,13 @@
-// import { INCREMENT_COUNTER, DECREMENT_COUNTER } from '../action/counter';
-import { RECEIVE_COUNTERS } from '../action/counter';
+import { INCREMENT_COUNTER, DECREMENT_COUNTER, RECEIVE_COUNTERS } from '../action/counter';
 
 const initialState = {
   isFetching: false,
   didInvalidate: false,
   items: []
 };
+
+const inc = i => { return i + 1; };
+const dec = i => { return i - 1; };
 
 export default function countersByUser(state = initialState, action) {
 
@@ -16,10 +18,28 @@ export default function countersByUser(state = initialState, action) {
   // - An action informing the reducers that the request finished successfully.
   // - An action informing the reducers that the request failed.
 
-  // case 'INCREMENT_COUNTER':
-  //   return state + 1;
-  // case 'DECREMENT_COUNTER':
-  //   return state - 1;
+  case 'INCREMENT_COUNTER':
+    let id = action.index;
+    return Object.assign({}, state, {
+      items: [
+        ...state.items.slice(0, action.index),
+        Object.assign({}, state.items[action.index], {
+          value: inc(state.items[action.index].value)
+        }),
+        ...state.items.slice(action.index + 1)
+      ]
+    });
+
+  case 'DECREMENT_COUNTER':
+    return Object.assign({}, state, {
+      items: [
+        ...state.items.slice(0, action.index),
+        Object.assign({}, state.items[action.index], {
+          value: dec(state.items[action.index].value)
+        }),
+        ...state.items.slice(action.index + 1)
+      ]
+    });
 
   case 'RECEIVE_COUNTERS':
     return Object.assign({}, state, {

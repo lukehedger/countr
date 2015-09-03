@@ -1,6 +1,5 @@
 Redux:
   ☐ refine data flow
-    - add increment/decrement functions back in
     - need a selectUser action/reducer/container/component etc etc etc
     - document async data flow -> http://rackt.github.io/redux/docs/advanced/AsyncActions.html
 
@@ -19,6 +18,7 @@ Server/Database alternative:
   - Universal/Isomporphic app w/server-side rendering
 
 Resources:
+  - awesome-redux https://github.com/xgrommx/awesome-redux
   - react-router https://github.com/rackt/react-router/tree/master
   - reselect https://github.com/faassen/reselect
   - react cheatsheet http://ricostacruz.com/cheatsheets/react.html

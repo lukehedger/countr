@@ -27882,36 +27882,43 @@ module.exports = exports["default"];
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
+exports.increment = increment;
+exports.decrement = decrement;
 exports.receiveCounters = receiveCounters;
 exports.fetchCounters = fetchCounters;
 
 require('whatwg-fetch');
 
-// export const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
-// export const DECREMENT_COUNTER = 'DECREMENT_COUNTER';
+var INCREMENT_COUNTER = 'INCREMENT_COUNTER';
+exports.INCREMENT_COUNTER = INCREMENT_COUNTER;
+var DECREMENT_COUNTER = 'DECREMENT_COUNTER';
 // export const CREATE_COUNTER = 'CREATE_COUNTER';
+exports.DECREMENT_COUNTER = DECREMENT_COUNTER;
 var RECEIVE_COUNTERS = 'RECEIVE_COUNTERS';
 // export const DELETE_COUNTER = 'DELETE_COUNTER';
 
-// export function increment() {
-//   return {
-//     type: INCREMENT_COUNTER
-//   };
-// }
-//
-// export function decrement() {
-//   return {
-//     type: DECREMENT_COUNTER
-//   };
-// }
+exports.RECEIVE_COUNTERS = RECEIVE_COUNTERS;
+
+function increment(index) {
+  return {
+    type: INCREMENT_COUNTER,
+    index: index
+  };
+}
+
+function decrement(index) {
+  return {
+    type: DECREMENT_COUNTER,
+    index: index
+  };
+}
+
 //
 // export function createCounter() {
 //   return {
 //     type: CREATE_COUNTER
 //   };
 // }
-
-exports.RECEIVE_COUNTERS = RECEIVE_COUNTERS;
 
 function receiveCounters(user, json) {
   return {
@@ -27927,8 +27934,6 @@ function receiveCounters(user, json) {
 //     type: DELETE_COUNTER
 //   };
 // }
-
-// TODO - user here is used to fetchCounters for a specific user
 
 function fetchCounters(user) {
   // thunk! function that returns a functions
@@ -27971,13 +27976,19 @@ var Counter = (function (_Component) {
     _classCallCheck(this, Counter);
 
     _get(Object.getPrototypeOf(Counter.prototype), 'constructor', this).call(this, props);
+
+    var _props = this.props;
+
+    // bind action triggers for use in map callback
+    var onIncrement = _props.onIncrement;
+    var onDecrement = _props.onDecrement;
+    this.onIncrement = onIncrement.bind(this);
+    this.onDecrement = onDecrement.bind(this);
   }
 
   _createClass(Counter, [{
     key: 'render',
     value: function render() {
-
-      // const { onIncrement, onDecrement } = this.props;
       var counters = this.props.counters;
 
       var renderCounter = this.renderCounter;
@@ -27990,12 +28001,13 @@ var Counter = (function (_Component) {
           null,
           'Counters'
         ),
-        counters.map(renderCounter)
+        counters.map(renderCounter.bind(this))
       );
     }
   }, {
     key: 'renderCounter',
     value: function renderCounter(counter, i) {
+      var _this = this;
 
       return _react2['default'].createElement(
         'div',
@@ -28006,6 +28018,20 @@ var Counter = (function (_Component) {
           counter.title,
           ' - ',
           counter.value
+        ),
+        _react2['default'].createElement(
+          'button',
+          { onClick: function (e) {
+              return _this.onIncrement(i);
+            } },
+          '+'
+        ),
+        _react2['default'].createElement(
+          'button',
+          { onClick: function (e) {
+              return _this.onDecrement(i);
+            } },
+          '-'
         )
       );
     }
@@ -28017,15 +28043,12 @@ var Counter = (function (_Component) {
 exports['default'] = Counter;
 
 Counter.propTypes = {
-  // onIncrement: PropTypes.func.isRequired,
-  // onDecrement: PropTypes.func.isRequired,
+  onIncrement: _react.PropTypes.func.isRequired,
+  onDecrement: _react.PropTypes.func.isRequired,
   counters: _react.PropTypes.array.isRequired
 };
 module.exports = exports['default'];
-/*
- <button onClick={onIncrement}>+</button>
- <button onClick={onDecrement}>-</button>
-*/
+/* render each counter */
 
 },{"react":289}],306:[function(require,module,exports){
 'use strict';
@@ -28153,8 +28176,6 @@ var CounterContainer = (function (_Component) {
   _createClass(CounterContainer, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      console.log('componentDidMount', this.props);
-
       var fetchCounters = this.props.fetchCounters;
 
       // TODO - need to get current user before here and pass to func
@@ -28163,14 +28184,12 @@ var CounterContainer = (function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _props = this.props;
+      var increment = _props.increment;
+      var decrement = _props.decrement;
+      var counters = _props.counters;
 
-      // const { increment, decrement } = this.props;
-      var counters = this.props.counters;
-
-      return(
-        // <Counter onIncrement={increment} onDecrement={decrement} />
-        _react2['default'].createElement(_componentCounter2['default'], { counters: counters })
-      );
+      return _react2['default'].createElement(_componentCounter2['default'], { onIncrement: increment, onDecrement: decrement, counters: counters });
     }
   }]);
 
@@ -28460,7 +28479,6 @@ exports["default"] = Signup;
 module.exports = exports["default"];
 
 },{"react":289}],312:[function(require,module,exports){
-// import { INCREMENT_COUNTER, DECREMENT_COUNTER } from '../action/counter';
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -28468,12 +28486,21 @@ Object.defineProperty(exports, '__esModule', {
 });
 exports['default'] = countersByUser;
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+
 var _actionCounter = require('../action/counter');
 
 var initialState = {
   isFetching: false,
   didInvalidate: false,
   items: []
+};
+
+var inc = function inc(i) {
+  return i + 1;
+};
+var dec = function dec(i) {
+  return i - 1;
 };
 
 function countersByUser(state, action) {
@@ -28486,10 +28513,20 @@ function countersByUser(state, action) {
     // - An action informing the reducers that the request finished successfully.
     // - An action informing the reducers that the request failed.
 
-    // case 'INCREMENT_COUNTER':
-    //   return state + 1;
-    // case 'DECREMENT_COUNTER':
-    //   return state - 1;
+    case 'INCREMENT_COUNTER':
+      var id = action.index;
+      return Object.assign({}, state, {
+        items: [].concat(_toConsumableArray(state.items.slice(0, action.index)), [Object.assign({}, state.items[action.index], {
+          value: inc(state.items[action.index].value)
+        })], _toConsumableArray(state.items.slice(action.index + 1)))
+      });
+
+    case 'DECREMENT_COUNTER':
+      return Object.assign({}, state, {
+        items: [].concat(_toConsumableArray(state.items.slice(0, action.index)), [Object.assign({}, state.items[action.index], {
+          value: dec(state.items[action.index].value)
+        })], _toConsumableArray(state.items.slice(action.index + 1)))
+      });
 
     case 'RECEIVE_COUNTERS':
       return Object.assign({}, state, {

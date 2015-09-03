@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Counter from '../component/counter';
@@ -13,7 +13,6 @@ class CounterContainer extends Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount', this.props);
 
     const { fetchCounters } = this.props;
 
@@ -24,12 +23,10 @@ class CounterContainer extends Component {
 
   render() {
 
-    // const { increment, decrement } = this.props;
-    const { counters } = this.props;
+    const { increment, decrement, counters } = this.props;
 
     return (
-      // <Counter onIncrement={increment} onDecrement={decrement} />
-      <Counter counters={counters} />
+      <Counter onIncrement={increment} onDecrement={decrement} counters={counters} />
     );
 
   }

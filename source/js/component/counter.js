@@ -6,22 +6,24 @@ export default class Counter extends Component {
 
     super(props);
 
+    const { onIncrement, onDecrement } = this.props;
+
+    // bind action triggers for use in map callback
+    this.onIncrement = onIncrement.bind(this);
+    this.onDecrement = onDecrement.bind(this);
+
   }
 
   render() {
 
-    // const { onIncrement, onDecrement } = this.props;
     const { counters } = this.props;
     const renderCounter = this.renderCounter;
 
     return (
       <div>
         <h1>Counters</h1>
-        {counters.map(renderCounter)}
-        {/*
-          <button onClick={onIncrement}>+</button>
-          <button onClick={onDecrement}>-</button>
-        */}
+        {/* render each counter */}
+        {counters.map(renderCounter.bind(this))}
       </div>
     );
 
@@ -32,6 +34,8 @@ export default class Counter extends Component {
     return (
       <div key={counter.id}>
         <h2>{counter.title} - {counter.value}</h2>
+        <button onClick={e => this.onIncrement(i)}>+</button>
+        <button onClick={e => this.onDecrement(i)}>-</button>
       </div>
     );
 
@@ -40,7 +44,7 @@ export default class Counter extends Component {
 }
 
 Counter.propTypes = {
-  // onIncrement: PropTypes.func.isRequired,
-  // onDecrement: PropTypes.func.isRequired,
+  onIncrement: PropTypes.func.isRequired,
+  onDecrement: PropTypes.func.isRequired,
   counters: PropTypes.array.isRequired
 };
