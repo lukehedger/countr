@@ -26,11 +26,11 @@ export function decrement(index) {
 //   };
 // }
 
-export function receiveCounters(user, json) {
+export function receiveCounters(user, counters) {
   return {
     type: RECEIVE_COUNTERS,
     user,
-    counters: json.counters,
+    counters: counters,
     receivedAt: Date.now()
   };
 }
@@ -46,7 +46,7 @@ export function fetchCounters(user) {
   return (dispatch, getState) => {
     return fetch('../data/database.json')
       .then(req => req.json())
-      // .then(json => console.log(user, json));
-      .then(json => dispatch(receiveCounters(user, json)));
+      .then(json => json.counters.filter(counter => { return counter.owner === user }))
+      .then(counters => dispatch(receiveCounters(user, counters)));
   }
 }

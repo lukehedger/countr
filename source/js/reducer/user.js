@@ -1,14 +1,26 @@
-// TODO - this is just a sample
+import { RECEIVE_USER } from '../action/user';
 
-export default function counter(state = 0, action) {
+const initialState = {
+  isFetching: false,
+  didInvalidate: false,
+  data: {}
+};
+
+export default function user(state = initialState, action) {
 
   switch (action.type) {
-  case 'INCREMENT':
-    return state + 1;
-  case 'DECREMENT':
-    return state - 1;
+
+  case 'RECEIVE_USER':
+    return Object.assign({}, state, {
+      isFetching: false,
+      didInvalidate: false,
+      data: action.user,
+      lastUpdated: action.receivedAt
+    });
+
   default:
     return state;
+
   }
 
 }

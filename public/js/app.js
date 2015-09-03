@@ -18,7 +18,7 @@ var _reactRouterLibBrowserHistory = require('react-router/lib/BrowserHistory');
 
 _react2['default'].render(_react2['default'].createElement(_containerRoot2['default'], { history: _reactRouterLibBrowserHistory.history }), document.getElementById('root'));
 
-},{"./container/Root":310,"babelify/polyfill":94,"react":289,"react-router/lib/BrowserHistory":106}],2:[function(require,module,exports){
+},{"./container/Root":311,"babelify/polyfill":94,"react":289,"react-router/lib/BrowserHistory":106}],2:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -27920,11 +27920,11 @@ function decrement(index) {
 //   };
 // }
 
-function receiveCounters(user, json) {
+function receiveCounters(user, counters) {
   return {
     type: RECEIVE_COUNTERS,
     user: user,
-    counters: json.counters,
+    counters: counters,
     receivedAt: Date.now()
   };
 }
@@ -27940,15 +27940,75 @@ function fetchCounters(user) {
   return function (dispatch, getState) {
     return fetch('../data/database.json').then(function (req) {
       return req.json();
-    })
-    // .then(json => console.log(user, json));
-    .then(function (json) {
-      return dispatch(receiveCounters(user, json));
+    }).then(function (json) {
+      return json.counters.filter(function (counter) {
+        return counter.owner === user;
+      });
+    }).then(function (counters) {
+      return dispatch(receiveCounters(user, counters));
     });
   };
 }
 
 },{"whatwg-fetch":303}],305:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports.receiveUser = receiveUser;
+exports.fetchUser = fetchUser;
+
+require('whatwg-fetch');
+
+// export const CREATE_USER = 'CREATE_USER';
+var RECEIVE_USER = 'RECEIVE_USER';
+// export const UPDATE_USER = 'UPDATE_USER';
+// export const DELETE_USER = 'DELETE_USER';
+
+//
+// export function createUser() {
+//   return {
+//     type: CREATE_USER
+//   };
+// }
+
+exports.RECEIVE_USER = RECEIVE_USER;
+
+function receiveUser(user) {
+  return {
+    type: RECEIVE_USER,
+    user: user,
+    receivedAt: Date.now()
+  };
+}
+
+// export function updateUser() {
+//   return {
+//     type: UPDATE_USER
+//   };
+// }
+
+// export function deleteUser() {
+//   return {
+//     type: DELETE_USER
+//   };
+// }
+
+function fetchUser(id) {
+
+  return function (dispatch, getState) {
+    return fetch('../data/database.json').then(function (req) {
+      return req.json();
+    }).then(function (json) {
+      return json.users[id];
+    }).then(function (user) {
+      return dispatch(receiveUser(user));
+    });
+  };
+}
+
+},{"whatwg-fetch":303}],306:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -28050,7 +28110,7 @@ Counter.propTypes = {
 module.exports = exports['default'];
 /* render each counter */
 
-},{"react":289}],306:[function(require,module,exports){
+},{"react":289}],307:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -28129,7 +28189,7 @@ exports['default'] = App;
 module.exports = exports['default'];
 /* TODO - move this to a nav component */ /* render containers dynamically based on route */
 
-},{"react":289,"react-router":126}],307:[function(require,module,exports){
+},{"react":289,"react-router":126}],308:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -28176,18 +28236,19 @@ var CounterContainer = (function (_Component) {
   _createClass(CounterContainer, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var fetchCounters = this.props.fetchCounters;
+      var _props = this.props;
+      var fetchCounters = _props.fetchCounters;
+      var userData = _props.userData;
 
-      // TODO - need to get current user before here and pass to func
-      fetchCounters(0);
+      fetchCounters(userData.id);
     }
   }, {
     key: 'render',
     value: function render() {
-      var _props = this.props;
-      var increment = _props.increment;
-      var decrement = _props.decrement;
-      var counters = _props.counters;
+      var _props2 = this.props;
+      var increment = _props2.increment;
+      var decrement = _props2.decrement;
+      var counters = _props2.counters;
 
       return _react2['default'].createElement(_componentCounter2['default'], { onIncrement: increment, onDecrement: decrement, counters: counters });
     }
@@ -28198,14 +28259,17 @@ var CounterContainer = (function (_Component) {
 
 function mapStateToProps(state) {
   var countersByUser = state.countersByUser;
+  var user = state.user;
   var isFetching = countersByUser.isFetching;
   var lastUpdated = countersByUser.lastUpdated;
   var counters = countersByUser.items;
+  var userData = user.data;
 
   return {
     counters: counters,
     isFetching: isFetching,
-    lastUpdated: lastUpdated
+    lastUpdated: lastUpdated,
+    userData: userData
   };
 }
 
@@ -28216,7 +28280,7 @@ function mapDispatchToProps(dispatch) {
 exports['default'] = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(CounterContainer);
 module.exports = exports['default'];
 
-},{"../action/counter":304,"../component/counter":305,"react":289,"react-redux":99,"redux":295}],308:[function(require,module,exports){
+},{"../action/counter":304,"../component/counter":306,"react":289,"react-redux":99,"redux":295}],309:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -28226,6 +28290,8 @@ Object.defineProperty(exports, '__esModule', {
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -28237,34 +28303,70 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var Login = (function (_Component) {
-  _inherits(Login, _Component);
+var _redux = require('redux');
 
-  function Login(props) {
-    _classCallCheck(this, Login);
+var _reactRedux = require('react-redux');
 
-    _get(Object.getPrototypeOf(Login.prototype), 'constructor', this).call(this, props);
+// import Login from '../component/login';
+
+var _actionUser = require('../action/user');
+
+var UserActions = _interopRequireWildcard(_actionUser);
+
+var LoginContainer = (function (_Component) {
+  _inherits(LoginContainer, _Component);
+
+  function LoginContainer(props) {
+    _classCallCheck(this, LoginContainer);
+
+    _get(Object.getPrototypeOf(LoginContainer.prototype), 'constructor', this).call(this, props);
   }
 
-  _createClass(Login, [{
+  _createClass(LoginContainer, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var fetchUser = this.props.fetchUser;
+
+      // TODO - this would be called with username/password from Login dumb-component for authentication
+      // or maybe abstacted within a authUser() action ?
+      fetchUser(0);
+    }
+  }, {
     key: 'render',
     value: function render() {
 
       return _react2['default'].createElement(
-        'h1',
+        'div',
         null,
-        'Login'
+        _react2['default'].createElement(
+          'h1',
+          null,
+          'Login'
+        )
       );
     }
   }]);
 
-  return Login;
+  return LoginContainer;
 })(_react.Component);
 
-exports['default'] = Login;
-module.exports = exports['default'];
+function mapStateToProps(state) {
+  var user = state.user;
 
-},{"react":289}],309:[function(require,module,exports){
+  return {
+    user: user
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)(UserActions, dispatch);
+}
+
+exports['default'] = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(LoginContainer);
+module.exports = exports['default'];
+/* TODO - add Login dumb-component here */ /* <Login /> */
+
+},{"../action/user":305,"react":289,"react-redux":99,"redux":295}],310:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -28312,7 +28414,7 @@ var Profile = (function (_Component) {
 exports['default'] = Profile;
 module.exports = exports['default'];
 
-},{"react":289}],310:[function(require,module,exports){
+},{"react":289}],311:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -28410,7 +28512,7 @@ var Root = (function (_Component) {
 exports['default'] = Root;
 module.exports = exports['default'];
 
-},{"../store/configureStore":315,"./App":306,"./Counters":307,"./Login":308,"./Profile":309,"./Signup":311,"react":289,"react-redux":99,"react-router":126}],311:[function(require,module,exports){
+},{"../store/configureStore":316,"./App":307,"./Counters":308,"./Login":309,"./Profile":310,"./Signup":312,"react":289,"react-redux":99,"react-router":126}],312:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28478,7 +28580,7 @@ var Signup = (function (_Component) {
 exports["default"] = Signup;
 module.exports = exports["default"];
 
-},{"react":289}],312:[function(require,module,exports){
+},{"react":289}],313:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -28514,7 +28616,9 @@ function countersByUser(state, action) {
     // - An action informing the reducers that the request failed.
 
     case 'INCREMENT_COUNTER':
-      var id = action.index;
+
+      // TODO - don't we already have access to the userId here -> action.user
+
       return Object.assign({}, state, {
         items: [].concat(_toConsumableArray(state.items.slice(0, action.index)), [Object.assign({}, state.items[action.index], {
           value: inc(state.items[action.index].value)
@@ -28542,7 +28646,7 @@ function countersByUser(state, action) {
 
 module.exports = exports['default'];
 
-},{"../action/counter":304}],313:[function(require,module,exports){
+},{"../action/counter":304}],314:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -28569,32 +28673,44 @@ var rootReducer = (0, _redux.combineReducers)({
 exports['default'] = rootReducer;
 module.exports = exports['default'];
 
-},{"./counter":312,"./user":314,"redux":295}],314:[function(require,module,exports){
-// TODO - this is just a sample
-
+},{"./counter":313,"./user":315,"redux":295}],315:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
   value: true
 });
-exports['default'] = counter;
+exports['default'] = user;
 
-function counter(state, action) {
-  if (state === undefined) state = 0;
+var _actionUser = require('../action/user');
+
+var initialState = {
+  isFetching: false,
+  didInvalidate: false,
+  data: {}
+};
+
+function user(state, action) {
+  if (state === undefined) state = initialState;
 
   switch (action.type) {
-    case 'INCREMENT':
-      return state + 1;
-    case 'DECREMENT':
-      return state - 1;
+
+    case 'RECEIVE_USER':
+      return Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        data: action.user,
+        lastUpdated: action.receivedAt
+      });
+
     default:
       return state;
+
   }
 }
 
 module.exports = exports['default'];
 
-},{}],315:[function(require,module,exports){
+},{"../action/user":305}],316:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -28630,7 +28746,7 @@ function configureStore() {
 
 module.exports = exports['default'];
 
-},{"../reducer":313,"redux":295,"redux-logger":291,"redux-thunk":293}]},{},[1])
+},{"../reducer":314,"redux":295,"redux-logger":291,"redux-thunk":293}]},{},[1])
 
 
 //# sourceMappingURL=app.js.map

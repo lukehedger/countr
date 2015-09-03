@@ -19,7 +19,9 @@ export default function countersByUser(state = initialState, action) {
   // - An action informing the reducers that the request failed.
 
   case 'INCREMENT_COUNTER':
-    let id = action.index;
+
+    // TODO - don't we already have access to the userId here -> action.user
+
     return Object.assign({}, state, {
       items: [
         ...state.items.slice(0, action.index),

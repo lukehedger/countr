@@ -1,14 +1,12 @@
 Redux:
-  ☐ refine data flow
-    - need a selectUser action/reducer/container/component etc etc etc
-    - document async data flow -> http://rackt.github.io/redux/docs/advanced/AsyncActions.html
+  ☐ document async data flow w/diagram -> http://rackt.github.io/redux/docs/advanced/AsyncActions.html
 
   ☐ setup re-base
     - replace local database call with Firebase call -> add mock data to FB with associations
     - use syncState with Redux state reducers to update state and sync with DB
 
 Modules:
-  ☐ CRUD User (email/password w/Firebase Auth) -> https://www.firebase.com/docs/web/guide/login/password.html
+  ☐ CRUD User (email/password w/Firebase Auth) -> https://www.firebase.com/docs/web/guide/login/password.html [LoginContainer:19]
   ☐ CRUD Counter [type, timestamp, £value, icon]
 
 Server/Database alternative:
@@ -25,6 +23,7 @@ Resources:
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+  ✔ refine data flow @done(2015-09-03 16:17) @project(Redux)
   ✔ flesh out data flow @done(2015-09-02 17:30) @project(Stack)
   ✔ tidy Gulp tasks/docs/packages @done(2015-08-19 16:56) @project(Stack)
   ✔ add react-router @done(2015-08-19 16:27) @project(Stack)

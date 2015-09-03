@@ -3,6 +3,10 @@
     "0": {
       "id": 0,
       "name": "luke"
+    },
+    "1": {
+      "id": 1,
+      "name": "test"
     }
   },
   "counters": [
@@ -23,6 +27,24 @@
       "title": "burger",
       "value": 0,
       "owner": 0
+    },
+    {
+      "id": 3,
+      "title": "frontier",
+      "value": 0,
+      "owner": 1
+    },
+    {
+      "id": 4,
+      "title": "pain-au-chocolat",
+      "value": 0,
+      "owner": 1
+    },
+    {
+      "id": 5,
+      "title": "five-guys",
+      "value": 0,
+      "owner": 1
     }
   ]
 }

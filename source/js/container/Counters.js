@@ -14,10 +14,9 @@ class CounterContainer extends Component {
 
   componentDidMount() {
 
-    const { fetchCounters } = this.props;
+    const { fetchCounters, userData } = this.props;
 
-    // TODO - need to get current user before here and pass to func
-    fetchCounters(0);
+    fetchCounters(userData.id);
 
   }
 
@@ -34,13 +33,16 @@ class CounterContainer extends Component {
 }
 
 function mapStateToProps(state) {
-  const { countersByUser } = state;
+
+  const { countersByUser, user } = state;
   const { isFetching, lastUpdated, items: counters } = countersByUser;
+  const { data: userData } = user;
 
   return {
     counters,
     isFetching,
-    lastUpdated
+    lastUpdated,
+    userData
   };
 }
 
