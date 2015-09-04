@@ -27884,8 +27884,11 @@ Object.defineProperty(exports, '__esModule', {
 });
 exports.increment = increment;
 exports.decrement = decrement;
+exports.invalidateCounters = invalidateCounters;
+exports.requestCounters = requestCounters;
+exports.requestCountersFailure = requestCountersFailure;
 exports.receiveCounters = receiveCounters;
-exports.fetchCounters = fetchCounters;
+exports.fetchCountersIfNeeded = fetchCountersIfNeeded;
 
 require('whatwg-fetch');
 
@@ -27894,6 +27897,12 @@ exports.INCREMENT_COUNTER = INCREMENT_COUNTER;
 var DECREMENT_COUNTER = 'DECREMENT_COUNTER';
 // export const CREATE_COUNTER = 'CREATE_COUNTER';
 exports.DECREMENT_COUNTER = DECREMENT_COUNTER;
+var INVALIDATE_COUNTERS = 'INVALIDATE_COUNTERS';
+exports.INVALIDATE_COUNTERS = INVALIDATE_COUNTERS;
+var REQUEST_COUNTERS = 'REQUEST_COUNTERS';
+exports.REQUEST_COUNTERS = REQUEST_COUNTERS;
+var REQUEST_COUNTERS_FAILURE = 'REQUEST_COUNTERS_FAILURE';
+exports.REQUEST_COUNTERS_FAILURE = REQUEST_COUNTERS_FAILURE;
 var RECEIVE_COUNTERS = 'RECEIVE_COUNTERS';
 // export const DELETE_COUNTER = 'DELETE_COUNTER';
 
@@ -27913,12 +27922,33 @@ function decrement(index) {
   };
 }
 
-//
 // export function createCounter() {
 //   return {
 //     type: CREATE_COUNTER
 //   };
 // }
+
+function invalidateCounters(user) {
+  return {
+    type: INVALIDATE_COUNTERS,
+    user: user
+  };
+}
+
+function requestCounters(user) {
+  return {
+    type: REQUEST_COUNTERS,
+    user: user
+  };
+}
+
+function requestCountersFailure(user, error) {
+  return {
+    type: REQUEST_COUNTERS_FAILURE,
+    user: user,
+    error: error
+  };
+}
 
 function receiveCounters(user, counters) {
   return {
@@ -27947,6 +27977,27 @@ function fetchCounters(user) {
     }).then(function (counters) {
       return dispatch(receiveCounters(user, counters));
     });
+  };
+}
+
+function shouldFetchPosts(state, user) {
+  var counters = state.countersByUser;
+  if (counters.status !== 'ok') {
+    return true;
+  } else if (counters.isFetching) {
+    return false;
+  } else {
+    return counters.didInvalidate;
+  }
+}
+
+function fetchCountersIfNeeded(user) {
+  return function (dispatch, getState) {
+    if (shouldFetchPosts(getState(), user)) {
+      return dispatch(fetchCounters(user));
+    } else {
+      return Promise.resolve();
+    }
   };
 }
 
@@ -28237,10 +28288,12 @@ var CounterContainer = (function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var _props = this.props;
-      var fetchCounters = _props.fetchCounters;
+      var fetchCountersIfNeeded = _props.fetchCountersIfNeeded;
       var userData = _props.userData;
 
-      fetchCounters(userData.id);
+      fetchCountersIfNeeded(userData.id).then(function () {
+        // data fetched OK
+      });
     }
   }, {
     key: 'render',
@@ -28595,6 +28648,8 @@ var _actionCounter = require('../action/counter');
 var initialState = {
   isFetching: false,
   didInvalidate: false,
+  status: null,
+  errorMessage: null,
   items: []
 };
 
@@ -28610,15 +28665,8 @@ function countersByUser(state, action) {
 
   switch (action.type) {
 
-    // TODO - this reducer needs more work to look like the reddit eg. -> REQUEST, INVALIDATE, SUCCESS, FAILURE
-    // - An action informing the reducers that the request began.
-    // - An action informing the reducers that the request finished successfully.
-    // - An action informing the reducers that the request failed.
-
     case 'INCREMENT_COUNTER':
-
       // TODO - don't we already have access to the userId here -> action.user
-
       return Object.assign({}, state, {
         items: [].concat(_toConsumableArray(state.items.slice(0, action.index)), [Object.assign({}, state.items[action.index], {
           value: inc(state.items[action.index].value)
@@ -28632,13 +28680,35 @@ function countersByUser(state, action) {
         })], _toConsumableArray(state.items.slice(action.index + 1)))
       });
 
+    case 'INVALIDATE_COUNTERS':
+      return Object.assign({}, state, {
+        didInvalidate: true
+      });
+
+    case 'REQUEST_COUNTERS':
+      return Object.assign({}, state, {
+        isFetching: true,
+        didInvalidate: false,
+        status: null
+      });
+
+    case 'REQUEST_COUNTERS_FAILURE':
+      return Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        status: 'error',
+        errorMessage: action.error
+      });
+
     case 'RECEIVE_COUNTERS':
       return Object.assign({}, state, {
         isFetching: false,
         didInvalidate: false,
         items: action.counters,
-        lastUpdated: action.receivedAt
+        lastUpdated: action.receivedAt,
+        status: 'ok'
       });
+
     default:
       return state;
   }

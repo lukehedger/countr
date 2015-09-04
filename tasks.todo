@@ -1,5 +1,9 @@
 Redux:
-  ☐ document async data flow w/diagram -> http://rackt.github.io/redux/docs/advanced/AsyncActions.html
+  ☐ more reading to cement
+    - https://github.com/tsingson/redux-async-learning
+    - https://github.com/jasonslyvia/react-redux-async-example
+    - https://github.com/rackt/redux/pull/166
+    - https://github.com/rackt/redux/issues/113#issuecomment-114049804
 
   ☐ setup re-base
     - replace local database call with Firebase call -> add mock data to FB with associations
@@ -23,6 +27,8 @@ Resources:
 
 ＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿＿
 Archive:
+  ✔ expand action/counter.js -> shouldFetch etc @done(2015-09-04 15:31) @project(Redux)
+  ✔ document async data flow @done(2015-09-04 12:51) @project(Redux)
   ✔ refine data flow @done(2015-09-03 16:17) @project(Redux)
   ✔ flesh out data flow @done(2015-09-02 17:30) @project(Stack)
   ✔ tidy Gulp tasks/docs/packages @done(2015-08-19 16:56) @project(Stack)

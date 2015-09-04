@@ -1,8 +1,10 @@
-import { INCREMENT_COUNTER, DECREMENT_COUNTER, RECEIVE_COUNTERS } from '../action/counter';
+import { INCREMENT_COUNTER, DECREMENT_COUNTER, INVALIDATE_COUNTERS, REQUEST_COUNTERS, REQUEST_COUNTERS_FAILURE, RECEIVE_COUNTERS } from '../action/counter';
 
 const initialState = {
   isFetching: false,
   didInvalidate: false,
+  status: null,
+  errorMessage: null,
   items: []
 };
 
@@ -13,15 +15,8 @@ export default function countersByUser(state = initialState, action) {
 
   switch (action.type) {
 
-  // TODO - this reducer needs more work to look like the reddit eg. -> REQUEST, INVALIDATE, SUCCESS, FAILURE
-  // - An action informing the reducers that the request began.
-  // - An action informing the reducers that the request finished successfully.
-  // - An action informing the reducers that the request failed.
-
   case 'INCREMENT_COUNTER':
-
     // TODO - don't we already have access to the userId here -> action.user
-
     return Object.assign({}, state, {
       items: [
         ...state.items.slice(0, action.index),
@@ -43,13 +38,35 @@ export default function countersByUser(state = initialState, action) {
       ]
     });
 
+  case 'INVALIDATE_COUNTERS':
+    return Object.assign({}, state, {
+      didInvalidate: true
+    });
+
+  case 'REQUEST_COUNTERS':
+    return Object.assign({}, state, {
+      isFetching: true,
+      didInvalidate: false,
+      status: null
+    });
+
+  case 'REQUEST_COUNTERS_FAILURE':
+    return Object.assign({}, state, {
+      isFetching: false,
+      didInvalidate: false,
+      status: 'error',
+      errorMessage: action.error
+    });
+
   case 'RECEIVE_COUNTERS':
     return Object.assign({}, state, {
       isFetching: false,
       didInvalidate: false,
       items: action.counters,
-      lastUpdated: action.receivedAt
+      lastUpdated: action.receivedAt,
+      status: 'ok'
     });
+
   default:
     return state;
   }

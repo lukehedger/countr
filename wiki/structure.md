@@ -6,7 +6,23 @@ The Store holds the application’s state tree. The app's Store is created in `s
 
 > All combineReducers() does is generate a function that calls your reducers with the slices of state selected according to their keys, and combining their results into a single object again.
 
-Actions are dispatched to the Store, which in turn calls the given Reducer function to alter the app's state. It is common practice to use a 'root reducer' when creating a store - this combines the output of multiple reducers into a single state tree. Each reducer is only concerned with its branch of the global state tree but these branches are then re-assembled by the root reducer and returned to the Store. The Store then saves the complete state tree returned by the root reducer. See more about [Redux's unidirectional data flow](http://rackt.github.io/redux/docs/basics/DataFlow.html).
+Actions are dispatched to the Store, which in turn calls the given Reducer function to alter the app's state. It is common practice to use a 'root reducer' when creating a store - this combines the output of multiple reducers into a single state tree. Each Reducer is only concerned with its branch of the global state tree but these branches are then re-assembled by the root reducer and returned to the Store. The Store then saves the complete state tree returned by the root reducer. The UI (Components/Containers) is then refreshed as necessary with the new state - the [react-redux](https://github.com/rackt/react-redux) bindings take care of this. See more about [Redux's unidirectional data flow](http://rackt.github.io/redux/docs/basics/DataFlow.html).
+
+## Data Flow
+
+```
+Component [callback] -> Container [dispatch] -> Action [dispatched] -> Store [calls(args)] -> Reducer [computes state] -> Store [saves state] -> Container [refreshed] -> Component [refreshed]
+```
+
+# Middleware
+
+By default, all Redux data flow is synchronous. Middleware can be used to introduce [asynchronous data flow](http://rackt.github.io/redux/docs/advanced/AsyncFlow.html) and allow you to dispatch something other than actions - like functions (thunks) or Promises. Anything you dispatch can then be interpreted, transformed and chained to another Action/Middleware.
+
+> When the last middleware in the chain dispatches an action, it has to be a plain object. This is when the synchronous Redux data flow takes place.
+
+## Asynchronous Actions
+
+Dispatching async actions is no different to dispatching synchronous actions and the UI is updating in the same way too. The only differences is how the actions are handled. In [async actions](http://rackt.github.io/redux/docs/advanced/AsyncActions.html) they can be intercepted, delayed and transformed using Middleware. Examples of Middleware uses include logging, crash reporting and, most commonly, API calls.
 
 # Reducers
 
@@ -36,7 +52,24 @@ Actions can pass data to Reducers for use in altering the state - see [Flux Stan
 
 Not all actions must go through a Reducer - actions can be dispatched from anywhere in your app: components and XHR callbacks or even at scheduled intervals. These Actions can return functions (thunks) or Promises - through the use of Middleware - and can dispatch other actions. See more on [async data flow](http://rackt.github.io/redux/docs/advanced/AsyncFlow.html).
 
-*TODO -> how can dynamic data be passed to an Action from a Component event?*
+Dynamic data can be passed to an Action from a Component event like so:
+
+```
+// component.js
+<button onClick={e => this.onIncrement(i)}>+</button>
+
+// action.js
+export function increment(index) {
+  return {
+    type: INCREMENT_COUNTER,
+    index
+  };
+}
+
+// reducer.js
+case 'INCREMENT_COUNTER':
+  console.log(action.index);
+```
 
 # Containers (aka smart components)
 
@@ -61,3 +94,14 @@ Renders the React application to the DOM.
 ## container/Root.js
 
 Sets up the application's Routing (using [react-router v1.0.0-beta3](https://github.com/rackt/react-router/tree/master)) - each Route takes a Container as its parent component. The Containers then render any child components. The `App` container is used as the parent Route and renders all other child Routes dynamically based on the path - this is also where any master navigation component lives. The Root container also hooks `react-redux` to the Redux store using the Provider component - this makes the store available to the `connect()` calls in the component hierarchy below.
+
+App-wide data requests can also be made from the Root Container, like so:
+
+```
+import configureStore from '../store/configureStore';
+import { requestData } from './action/data';
+
+const store = configureStore();
+
+store.dispatch(requestData());
+```

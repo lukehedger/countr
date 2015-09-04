@@ -14,9 +14,12 @@ class CounterContainer extends Component {
 
   componentDidMount() {
 
-    const { fetchCounters, userData } = this.props;
+    const { fetchCountersIfNeeded, userData } = this.props;
 
-    fetchCounters(userData.id);
+    fetchCountersIfNeeded(userData.id)
+      .then(() => {
+        // data fetched OK
+      });
 
   }
 
