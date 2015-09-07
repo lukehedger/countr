@@ -1,14 +1,3 @@
-Redux:
-  ☐ more reading to cement
-    - https://github.com/tsingson/redux-async-learning
-    - https://github.com/jasonslyvia/react-redux-async-example
-    - https://github.com/rackt/redux/pull/166
-    - https://github.com/rackt/redux/issues/113#issuecomment-114049804
-
-  ☐ setup re-base
-    - replace local database call with Firebase call -> add mock data to FB with associations
-    - use syncState with Redux state reducers to update state and sync with DB
-
 Modules:
   ☐ CRUD User (email/password w/Firebase Auth) -> https://www.firebase.com/docs/web/guide/login/password.html [LoginContainer:19]
   ☐ CRUD Counter [type, timestamp, £value, icon]
