@@ -1,4 +1,6 @@
-# countr
+# countr (react-redux version)
+
+This is the React-Redux version used for personal education purposes and now abandoned. It's far from finished but has some good code examples so I'm keeping it.
 
 ## Running the project
 
