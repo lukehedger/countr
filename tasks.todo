@@ -1,5 +1,16 @@
-Resurrection:
-  ☐ Setup Hoodie API - http://www.sitepoint.com/tutorial-getting-started-hoodie/
-  ☐ Setup CouchDB database
-  ☐ Design state tree
+API:
+  ✔ Setup Diet API @done(2015-09-08 16:10) @done(2015-09-08 16:10) @project(Resurrection)
+  ✔ Setup MongoDB database @done(2015-09-08 16:11) @done(2015-09-08 16:11) @project(Resurrection)
+  ✔ Setup Mongoose db connection @done(2015-09-08 16:11) @done(2015-09-08 16:11) @project(Resurrection)
+  ✔ Construct API data models @done(2015-09-09 16:49) @done(2015-09-09 16:49) @project(Resurrection)
+  ✔ Construct routes -> http://dietjs.com/tutorials/router @done(2015-09-10 15:02) @done(2015-09-10 15:02) @project(API)
+  ☐ Build CRUD controllers for Counter and Count -> https://scotch.io/tutorials/using-mongoosejs-in-node-js-and-mongodb-applications
+  ☐ User mgmt service/controller - how is this integrated with mongodb? -> https://oauth.io/home/user_management
+  ☐ Mongoose + ES6? -> http://mongoosejs.com/docs/harmony.html
+  ☐ Mongoose populate -> http://mongoosejs.com/docs/populate.html
+
+Frontend:
   ☐ Connect Redux with API to fetch data
+  ☐ Revisit state tree - better to populate documents at schema level than state for privacy & performance but how is this handled on state tree
+  ☐ Server-side rendering
+  ☐ Offline-first
